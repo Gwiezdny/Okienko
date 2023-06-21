@@ -1,0 +1,2 @@
+assets/textures/blank.png
+assets/textures/grass.png
