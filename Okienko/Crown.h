@@ -11,12 +11,16 @@
 class Crown
 {
 	Root Root;
+	sf::RenderWindow Window{ sf::VideoMode(800,600), "Okienko <3" };
 	std::vector < std::vector < BackgroundField > > background;
-	std::vector<sf::Texture> textureVector;
+	std::vector<sf::Texture> backgroundTextureVector;
+
+	int mapSizeX, mapSizeY;
 
 	void downloadTexture(std::string);
 	void textureBackgroundMap();
-
+	void assignPosition();
+	void drawBackground();
 
 public:
 	void gameloop();

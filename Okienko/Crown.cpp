@@ -11,32 +11,67 @@ void Crown::downloadTexture(std::string fileName) {
 			sf::Texture tmpTexture;
 			std::getline(data, line);
 			if (!tmpTexture.loadFromFile(line)) { std::cout << "Texture loading failed...\n"; }
-			textureVector.push_back(tmpTexture);
+			backgroundTextureVector.push_back(tmpTexture);
 		}
+	}
+	else {
+		std::cout << "Texture link file opening failed...\n";
 	}
 }
 
 void Crown::textureBackgroundMap() {
 	const auto [intTextureMap, sizeX, sizeY] = Root.downloadTextureMap("assets/backgroundTextureMap.txt");
-	
-	for (int y = 0; y < sizeY; y++) {
-		for (int x = 0; x < sizeX; x++) {
-			background[y][x].setTexture(textureVector[intTextureMap[y][x]]);
+	mapSizeX = sizeX;
+	mapSizeY = sizeY;
+
+	for (int y = 0; y <= mapSizeY; y++) {
+		std::vector<BackgroundField> rowVector;
+		for (int x = 0; x <= mapSizeX; x++) {
+			BackgroundField patternBackground;
+			patternBackground.setTexture(backgroundTextureVector[intTextureMap[y][x]]);
+			rowVector.push_back(patternBackground);
+
 		}
+		background.push_back(rowVector);
+	}
+
+	for (int y = 0; y <= mapSizeY; y++) {
+		for (int x = 0; x <= mapSizeX; x++) {
+			std::cout << intTextureMap[y][x] << " ";
+		}
+		std::cout << std::endl;
 	}
 
 }
 
+void Crown::assignPosition() {
+	int size = background[0][0].getSizeX();
+	for (int y = 0; y <= mapSizeY; y++) {
+		for (int x = 0; x <= mapSizeX; x++) {
+			background[y][x].setPosition(x * size, y * size);
+		}
+	}
+}
+
+void Crown::drawBackground() {
+	for (int y = 0; y <= mapSizeY; y++) {
+		for (int x = 0; x <= mapSizeX; x++) {
+			Window.draw(background[y][x]);
+		}
+	}
+}
+
 void Crown::gameloop() {
-	sf::RenderWindow Window{ sf::VideoMode(800,600), "Okienko <3" };
 	Window.setFramerateLimit(60);
 
-
-	downloadTexture("assets/texturesPaths");
+	downloadTexture("assets/texturesPaths.txt");
 	textureBackgroundMap();
+	assignPosition();
+
 	while (true) {
-		Window.clear(sf::Color::Black);
-		Window.draw(background[1][1]);
+		Window.clear(sf::Color::White);
+
+		drawBackground();
 
 		Window.display();
 	}

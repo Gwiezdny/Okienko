@@ -1,0 +1,14 @@
+﻿  Root.cpp
+C:\Users\Gwiezdny\Desktop\Brograming\Okienko\Okienko\BackgroundField.h(9,33): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Gwiezdny\Desktop\Brograming\Okienko\Okienko\BackgroundField.h(9,27): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Gwiezdny\Desktop\Brograming\Okienko\Okienko\Root.cpp(21,18): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Gwiezdny\Desktop\Brograming\Okienko\Okienko\Root.cpp(25,38): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Okienko.vcxproj -> C:\Users\Gwiezdny\Desktop\Brograming\Okienko\x64\Debug\Okienko.exe
