@@ -4,8 +4,8 @@
 class BackgroundField : public::sf::Drawable {
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	sf::RectangleShape Object;
-	const int sizeX = 64;
-	const int sizeY = 64;
+	const int sizeX = 32;
+	const int sizeY = 32;
 	sf::Vector2f sizeVector{ sizeX,sizeY };
 public:
 	BackgroundField();

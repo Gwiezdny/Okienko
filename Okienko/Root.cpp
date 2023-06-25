@@ -22,7 +22,7 @@ std::tuple<std::vector<std::vector<int>>, int, int> Root::downloadTextureMap(std
 
 			for (int j = 0; j <= n; j++) {
 
-				point = line.find(',', point + j);
+				point = line.find(',', point + 1);
 				tmp = line.substr(prePoint, point - prePoint);
 				rowVector.push_back(stoi(tmp));
 				prePoint = point + 1;
@@ -33,4 +33,23 @@ std::tuple<std::vector<std::vector<int>>, int, int> Root::downloadTextureMap(std
 		return { intTextureMap, n, i - 1 };;
 	}
 	throw;
+}
+
+void Root::downloadTexture(std::string fileName, std::vector<sf::Texture>& textureVector) {
+	std::fstream data;
+	data.open(fileName, std::ios::in);
+
+	if (data.good()) {
+		std::string line;
+		while (data.good())
+		{
+			sf::Texture tmpTexture;
+			std::getline(data, line);
+			if (!tmpTexture.loadFromFile(line)) { std::cout << "Texture loading failed...\n"; }
+			textureVector.push_back(tmpTexture);
+		}
+	}
+	else {
+		std::cout << "Texture link file opening failed...\n";
+	}
 }

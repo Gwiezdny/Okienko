@@ -17,9 +17,8 @@ class Crown
 
 	int mapSizeX, mapSizeY;
 
-	void downloadTexture(std::string);
 	void textureBackgroundMap();
-	void assignPosition();
+	void assignBackgroundTexturePosition();
 	void drawBackground();
 
 public:

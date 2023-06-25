@@ -1,24 +1,5 @@
 #include "Crown.h"
 
-void Crown::downloadTexture(std::string fileName) {
-	std::fstream data;
-	data.open(fileName, std::ios::in);
-
-	if (data.good()) {
-		std::string line;
-		while (data.good())
-		{
-			sf::Texture tmpTexture;
-			std::getline(data, line);
-			if (!tmpTexture.loadFromFile(line)) { std::cout << "Texture loading failed...\n"; }
-			backgroundTextureVector.push_back(tmpTexture);
-		}
-	}
-	else {
-		std::cout << "Texture link file opening failed...\n";
-	}
-}
-
 void Crown::textureBackgroundMap() {
 	const auto [intTextureMap, sizeX, sizeY] = Root.downloadTextureMap("assets/backgroundTextureMap.txt");
 	mapSizeX = sizeX;
@@ -35,16 +16,16 @@ void Crown::textureBackgroundMap() {
 		background.push_back(rowVector);
 	}
 
-	for (int y = 0; y <= mapSizeY; y++) {
-		for (int x = 0; x <= mapSizeX; x++) {
-			std::cout << intTextureMap[y][x] << " ";
-		}
-		std::cout << std::endl;
-	}
+	//for (int y = 0; y <= mapSizeY; y++) {
+	//	for (int x = 0; x <= mapSizeX; x++) {
+	//		std::cout << intTextureMap[y][x] << " ";
+	//	}
+	//	std::cout << std::endl;
+	//}
 
 }
 
-void Crown::assignPosition() {
+void Crown::assignBackgroundTexturePosition() {
 	int size = background[0][0].getSizeX();
 	for (int y = 0; y <= mapSizeY; y++) {
 		for (int x = 0; x <= mapSizeX; x++) {
@@ -64,9 +45,9 @@ void Crown::drawBackground() {
 void Crown::gameloop() {
 	Window.setFramerateLimit(60);
 
-	downloadTexture("assets/texturesPaths.txt");
+	Root.downloadTexture("assets/texturesPaths.txt", backgroundTextureVector);
 	textureBackgroundMap();
-	assignPosition();
+	assignBackgroundTexturePosition();
 
 	while (true) {
 		Window.clear(sf::Color::White);
