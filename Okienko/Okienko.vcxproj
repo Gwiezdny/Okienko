@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="BackgroundField.cpp" />
     <ClCompile Include="Crown.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="UpperField.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Root.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="BackgroundField.h" />
     <ClInclude Include="Crown.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="UpperField.h" />
     <ClInclude Include="Root.h" />
   </ItemGroup>

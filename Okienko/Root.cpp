@@ -1,9 +1,5 @@
 #include "Root.h"
 
-
-//std::vector<std::vector<BackgroundField>>* backgroundPtr
-
-
 std::tuple<std::vector<std::vector<int>>, int, int> Root::downloadTextureMap(std::string fileName) {
 	std::fstream data;
 	data.open(fileName, std::ios::in);
@@ -52,4 +48,23 @@ void Root::downloadTexture(std::string fileName, std::vector<sf::Texture>& textu
 	else {
 		std::cout << "Texture link file opening failed...\n";
 	}
+}
+
+void Root::checkPlayerMove(Player& Player) {
+	float x{ 0 }, y{ 0 };
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		x -= 2;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		x += 2;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		y -= 2;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		y += 2;
+	}
+
+	Player.move(x, y);
 }

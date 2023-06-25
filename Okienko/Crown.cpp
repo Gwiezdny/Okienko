@@ -1,20 +1,21 @@
 #include "Crown.h"
 
-void Crown::textureBackgroundMap() {
-	const auto [intTextureMap, sizeX, sizeY] = Root.downloadTextureMap("assets/backgroundTextureMap.txt");
-	mapSizeX = sizeX;
-	mapSizeY = sizeY;
+Crown::Crown() {
+	View.setSize(sf::Vector2f(400.f, 300.f));
+}
 
-	for (int y = 0; y <= mapSizeY; y++) {
-		std::vector<BackgroundField> rowVector;
-		for (int x = 0; x <= mapSizeX; x++) {
-			BackgroundField patternBackground;
+template<typename Type>
+void Crown::textureMap(std::vector < std::vector < Type > >& Map, std::string fileName) {
+	const auto [intTextureMap, sizeX, sizeY] = Root.downloadTextureMap(fileName);
+
+	for (int y = 0; y <= sizeY; y++) {
+		std::vector<Type> rowVector;
+		for (int x = 0; x <= sizeX; x++) {
+			Type patternBackground;
 			patternBackground.setTexture(backgroundTextureVector[intTextureMap[y][x]]);
 			rowVector.push_back(patternBackground);
-
 		}
-		background.push_back(rowVector);
-	}
+		Map.push_back(rowVector);
 
 	//for (int y = 0; y <= mapSizeY; y++) {
 	//	for (int x = 0; x <= mapSizeX; x++) {
@@ -22,37 +23,51 @@ void Crown::textureBackgroundMap() {
 	//	}
 	//	std::cout << std::endl;
 	//}
-
+	}
 }
 
-void Crown::assignBackgroundTexturePosition() {
-	int size = background[0][0].getSizeX();
-	for (int y = 0; y <= mapSizeY; y++) {
-		for (int x = 0; x <= mapSizeX; x++) {
-			background[y][x].setPosition(x * size, y * size);
+template<typename Type>
+void Crown::assignMapTexturesPosition(std::vector < std::vector < Type > >& Map) {
+	int size = Map[0][0].getSizeX();
+	for (int y = 0; y < Map.size(); y++) {
+		for (int x = 0; x < Map[0].size(); x++) {
+			Map[y][x].setPosition(x * size, y * size);
 		}
 	}
 }
 
-void Crown::drawBackground() {
-	for (int y = 0; y <= mapSizeY; y++) {
-		for (int x = 0; x <= mapSizeX; x++) {
-			Window.draw(background[y][x]);
+template<typename Type>
+void Crown::drawMap(std::vector < std::vector < Type > >& Map) {
+	for (int y = 0; y < Map.size(); y++) {
+		for (int x = 0; x < Map[0].size(); x++) {
+			Window.draw(Map[y][x]);
 		}
 	}
 }
 
 void Crown::gameloop() {
 	Window.setFramerateLimit(60);
+	sf::Event Event;
 
 	Root.downloadTexture("assets/texturesPaths.txt", backgroundTextureVector);
-	textureBackgroundMap();
-	assignBackgroundTexturePosition();
+	textureMap(backgroundMap, "assets/BackgroundTextureMap.txt");
+	assignMapTexturesPosition(backgroundMap);
 
 	while (true) {
-		Window.clear(sf::Color::White);
+		Window.clear(sf::Color::Black);
+		Window.pollEvent(Event);
 
-		drawBackground();
+		if (Event.type == sf::Event::Closed) {
+			Window.close();
+			break;
+		}
+
+		Root.checkPlayerMove(Player);
+		View.setCenter(Player.getPosition());
+		Window.setView(View);
+		drawMap(backgroundMap);
+		Window.draw(Player);
+
 
 		Window.display();
 	}
